@@ -22,7 +22,7 @@ export class AppComponent implements OnInit{
       appId: '1:450014882270:web:aba761ff5b0411a49d954f'
     };
 
-    firebase.initializeApp({ config });
+    firebase.initializeApp( config );
   }
 
 }

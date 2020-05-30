@@ -35,9 +35,32 @@ export class Autenticacao{
                 firebase.auth().currentUser.getIdToken()
                     .then((idToken: string) => {
                         this.tokenId = idToken;
+                        localStorage.setItem('idToken', idToken);
                         this.router.navigate(['/home']);
                     });
             })
             .catch((error: Error) => console.log(error));
+    }
+
+    public autenticado(): boolean {
+
+        if (this.tokenId === undefined && localStorage.getItem('idToken') !== null){
+            this.tokenId = localStorage.getItem('idToken');
+        }
+
+        if (this.tokenId === undefined) {
+            this.router.navigate(['/']);
+        }
+
+        return this.tokenId !== undefined;
+    }
+
+    public sair(): void {
+        firebase.auth().signOut()
+            .then(() => {
+                localStorage.removeItem('idToken');
+                this.tokenId = undefined;
+                // this.router.navigate(['/']);
+            });
     }
 }
